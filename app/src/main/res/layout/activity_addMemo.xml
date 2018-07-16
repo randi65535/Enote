@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1,2">
+
+        <TableRow>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:textSize="30dp"
+                    android:minHeight="46dp"
+                    android:text="ISBN : "
+
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:visibility="invisible"
+                    android:text="1" />
+
+            </GridLayout>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="1">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="ISBN 입력창"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="검색해보기" />
+            </GridLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </TableRow>
+
+    </TableLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="196dp"
+        android:scrollbars="vertical" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+
+        <TableRow>
+            <TextView
+                android:text="도서명 : "
+                android:textSize="35dp"/>
+
+            <EditText
+                android:hint="검색 후 이용해주세요"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:text="저자명 : "
+                android:textSize="35dp"/>
+
+            <EditText
+                android:hint="검색 후 이용해주세요"/>
+
+        </TableRow>
+    </TableLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="30dp"
+            android:text="확인" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="30dp"
+            android:text="취소" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
