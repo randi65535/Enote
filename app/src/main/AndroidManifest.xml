@@ -19,6 +19,7 @@
         </activity>
 
         <activity android:name="up.cheer.project.summer.enote.AddMemoActivity"/>
+        <activity android:name="up.cheer.project.summer.enote.ManageMemoActivity"/>
 
     </application>
 

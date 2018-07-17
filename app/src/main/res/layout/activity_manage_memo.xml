@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+
+
+        <TableRow>
+            <TextView
+                android:text="ISBN : "
+                />
+
+            <TextView
+                android:id="@+id/BookIsbn"
+                android:text="검색 후 이용해주세요"/>
+        </TableRow>
+
+
+        <TableRow>
+            <TextView
+                android:text="도서명 : "
+                />
+
+            <TextView
+                android:id="@+id/BookTitle"
+                android:text="검색 후 이용해주세요"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:text="저자명 : "
+                />
+
+            <TextView
+                android:id="@+id/BookAuthor"
+                android:text="검색 후 이용해주세요"/>
+
+        </TableRow>
+    </TableLayout>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="286dp"
+        android:background="#cccccc"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:maxLines="255"
+        android:minLines="6"
+        android:scrollbars="vertical" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/UpdateMemoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="30dp"
+            android:text="확인" />
+
+        <Button
+            android:id="@+id/ReturnMainBtn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="30dp"
+            android:text="취소" />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
