@@ -27,7 +27,7 @@ public class AddMemoActivity extends AppCompatActivity {
     TextView isbnTextView;
 
     Handler mHandler = new Handler();
-    String urlStr = "http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=5e5a4c575334ac512cc7907e5020563e&result_style=json&page_no=1&page_size=10&isbn=9788992555784";
+    String urlStr = "http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=키&result_style=json&page_no=1&page_size=10&isbn=9788992555784";
 
     class mThread extends Thread{
 
