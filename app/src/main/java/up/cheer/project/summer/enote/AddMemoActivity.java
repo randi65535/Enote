@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,14 +30,17 @@ public class AddMemoActivity extends AppCompatActivity {
     TextView isbnTextView;
 
     Handler mHandler = new Handler();
-    String urlStr = "http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=키&result_style=json&page_no=1&page_size=10&isbn=9788992555784";
+    StringBuffer urlStrBuffer = new StringBuffer();
+
+    String author;
+    String title;
 
     class mThread extends Thread{
-
+        StringBuffer sb = new StringBuffer();
         @Override
         public void run() {
             try {
-                URL url = new URL(urlStr);
+                URL url = new URL(urlStrBuffer.toString());
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
@@ -47,16 +53,35 @@ public class AddMemoActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                urlStrBuffer.setLength(0);
             }
 
         }
 
         public void readStream(InputStream in){
             final String data = readData(in);
+            try {
+
+
+                JSONObject jsonObject =  new JSONObject(data);
+                JSONArray jArr = jsonObject.getJSONArray("docs");
+                //어짜피 ISBN은 고유값이라 1개 밖에 나오지 않는다.
+                jsonObject = jArr.getJSONObject(0);
+
+
+                author = jsonObject.getString("AUTHOR");
+                title = jsonObject.getString("TITLE");
+
+            } catch (Exception e) {
+
+            }
+
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    isbnTextView.setText(data);
+                    inputAuthorTextEdit.setText(author);
+                    inputTitleTextEdit.setText(title);
                 }
             });
         }
@@ -98,8 +123,19 @@ public class AddMemoActivity extends AppCompatActivity {
 
                 String isbn = inputIsbnTextEdit.getText().toString().replace("-", "");
 
-                new mThread().start();
+                if(isbn.length() < 10) {
+                    Toast.makeText(AddMemoActivity.this, "ISBN의 길이가 너무 짧습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
+                if(isbn.length() > 13) {
+                    Toast.makeText(AddMemoActivity.this, "ISBN의 길이가 너무 깁니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=키&result_style=json&page_no=1&page_size=10&isbn="+isbn);
+
+                //api를 읽음
+                new mThread().start();
             }
         });
 
@@ -137,3 +173,4 @@ public class AddMemoActivity extends AppCompatActivity {
     }
 
 }
+

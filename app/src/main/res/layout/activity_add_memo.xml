@@ -83,7 +83,9 @@
                 android:text="도서명 : "
                 android:textSize="35dp" />
 
-            <EditText android:id="@+id/InputTitleTextEdit" />
+            <EditText
+                android:hint="isbn을 검색해 보세요"
+                android:id="@+id/InputTitleTextEdit" />
         </TableRow>
 
         <TableRow>
@@ -93,6 +95,7 @@
                 android:textSize="35dp"/>
 
             <EditText
+                android:hint="isbn을 검색해 보세요"
                 android:id="@+id/InputAuthorTextEdit"/>
 
         </TableRow>
