@@ -136,7 +136,7 @@ public class AddMemoActivity extends AppCompatActivity {
                     Toast.makeText(AddMemoActivity.this, "ISBN의 길이가 너무 깁니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=5e5a4c575334ac512cc7907e5020563e&result_style=json&page_no=1&page_size=10&isbn="+isbn);
+                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=&result_style=json&page_no=1&page_size=10&isbn="+isbn);
 
                 //api를 읽음
                 new mThread().start();
