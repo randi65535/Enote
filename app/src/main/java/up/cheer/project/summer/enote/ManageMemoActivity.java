@@ -30,6 +30,7 @@ public class ManageMemoActivity  extends AppCompatActivity {
         returnMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });

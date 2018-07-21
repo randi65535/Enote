@@ -3,7 +3,6 @@ package up.cheer.project.summer.enote;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -29,6 +28,8 @@ public class AddMemoActivity extends AppCompatActivity {
     EditText inputIsbnTextEdit, inputAuthorTextEdit, inputTitleTextEdit;
     TextView isbnTextView;
 
+    public static final int ADDED                       =   201;
+
     Handler mHandler = new Handler();
     StringBuffer urlStrBuffer = new StringBuffer();
 
@@ -36,7 +37,7 @@ public class AddMemoActivity extends AppCompatActivity {
     String title;
 
     class mThread extends Thread{
-        StringBuffer sb = new StringBuffer();
+//        StringBuffer sb = new StringBuffer();
         @Override
         public void run() {
             try {
@@ -122,6 +123,9 @@ public class AddMemoActivity extends AppCompatActivity {
                 }
 
                 String isbn = inputIsbnTextEdit.getText().toString().replace("-", "");
+                isbn = isbn.replace("[","");
+                isbn = isbn.replace("]","");
+                isbn = isbn.replace(";",", ");
 
                 if(isbn.length() < 10) {
                     Toast.makeText(AddMemoActivity.this, "ISBN의 길이가 너무 짧습니다.", Toast.LENGTH_SHORT).show();
@@ -132,7 +136,7 @@ public class AddMemoActivity extends AppCompatActivity {
                     Toast.makeText(AddMemoActivity.this, "ISBN의 길이가 너무 깁니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=키&result_style=json&page_no=1&page_size=10&isbn="+isbn);
+                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=5e5a4c575334ac512cc7907e5020563e&result_style=json&page_no=1&page_size=10&isbn="+isbn);
 
                 //api를 읽음
                 new mThread().start();
@@ -158,7 +162,16 @@ public class AddMemoActivity extends AppCompatActivity {
                     return;
                 }
 
-                new mThread().start();
+                DatabaseHelper appDB = new DatabaseHelper(AddMemoActivity.this);
+                appDB.insert(new Memo(
+                        inputIsbnTextEdit.getText().toString(),
+                        inputTitleTextEdit.getText().toString(),
+                        inputAuthorTextEdit.getText().toString()
+                ));
+
+                setResult(ADDED);
+                finish();
+
             }
         });
 

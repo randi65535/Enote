@@ -7,6 +7,13 @@ public class Memo {
     private String mAuthor;
     private String mContent;
 
+//    public Memo(String test) {
+//        this.mIsbn = test + " isbn";
+//        this.mTitle = test + " title";
+//        this.mAuthor = test + " author";
+//        this.mContent = test+ " content";
+//    }
+
     public Memo(String mIsbn, String mTitle, String mAuthor, String mContent) {
         this.mIsbn = mIsbn;
         this.mTitle = mTitle;
@@ -18,6 +25,7 @@ public class Memo {
         this.mIsbn = mIsbn;
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
+        this.mContent = "";
     }
 
     public String getmIsbn() {
