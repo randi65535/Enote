@@ -57,9 +57,5 @@ public class ListviewAdapter extends BaseAdapter {
         return memoLayout;
     }
 
-    public void addItem(Memo memo){
-        list.add(memo);
-    }
-
 }
 

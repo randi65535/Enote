@@ -18,14 +18,19 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:clickable="true"
-            ></ListView>
+            android:divider="#ffcc22"
+            android:dividerHeight="1.5dp"
+            android:choiceMode="singleChoice"
+            />
 
     </LinearLayout>
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:stretchColumns="*"
+        >
 
         <Button
             android:id="@+id/AddMemoBtn"
@@ -33,22 +38,11 @@
             android:layout_height="81dp"
             android:textStyle="bold"
             android:textColor="#ffffff"
-            android:background="@color/colorPrimaryDark"
+            android:background="#0080FF"
             android:textSize="24dp"
             android:text="추가버튼"
-            android:layout_marginBottom="8dp" />
+            />
 
-        <Button
-            android:id="@+id/ManageMemoBtn"
-            android:layout_width="191dp"
-            android:layout_height="81dp"
-            android:textStyle="bold"
-            android:textColor="#ffffff"
-            android:background="@color/colorPrimaryDark"
-            android:textSize="24dp"
-            android:text="수정버튼"
-            android:layout_marginBottom="8dp" />
-
-    </LinearLayout>
+    </TableLayout>
 
 </LinearLayout>

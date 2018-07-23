@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import java.sql.Statement;
 import java.util.LinkedList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -68,6 +69,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void update(String isbn, String content){
+        SQLiteDatabase db = null;
+
+        try {
+            db = this.getWritableDatabase();
+            SQLiteStatement stmt = db.compileStatement("UPDATE MEMO SET db_content = ? WHERE db_isbn = ?");
+            stmt.bindString(1, content);
+            stmt.bindString(2, isbn);
+            stmt.execute();
+        } catch (Exception e) {
+            Log.e("Database Error", "Update Error");
+        } finally {
+            close(db);
+        }
+    }
+
     public LinkedList<Memo> getAllMemo() {
 
         LinkedList<Memo> list = new LinkedList<>();
@@ -113,6 +130,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return columnCount;
+
+    }
+
+    public String getContentByIsbn(String isbn) {
+        SQLiteDatabase db = null;
+        String content = null;
+        try {
+            db = this.getReadableDatabase();
+            String query = "SELECT db_isbn FROM MEMO WHERE db_isbn = " + isbn;
+            Cursor cursor = db.rawQuery(query, null);
+            cursor.moveToFirst();
+           content = cursor.getString(0);
+
+        } catch (Exception e) {
+            Log.e("Database  Error", "Select Error");
+        } finally {
+            close(db);
+        }
+
+        return content;
 
     }
 

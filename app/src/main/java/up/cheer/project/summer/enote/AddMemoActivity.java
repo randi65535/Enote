@@ -33,25 +33,27 @@ public class AddMemoActivity extends AppCompatActivity {
     Handler mHandler = new Handler();
     StringBuffer urlStrBuffer = new StringBuffer();
 
-    String author;
-    String title;
+
 
     class mThread extends Thread{
-//        StringBuffer sb = new StringBuffer();
+
+        String author;
+        String title;
+
         @Override
         public void run() {
             try {
                 URL url = new URL(urlStrBuffer.toString());
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
                 if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                     readStream(in);
                     urlConnection.disconnect();
-                }else{
-                    Toast.makeText(getApplicationContext(), "에러발생", Toast.LENGTH_SHORT).show();
                 }
+
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "URL 없음", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -123,20 +125,18 @@ public class AddMemoActivity extends AppCompatActivity {
                 }
 
                 String isbn = inputIsbnTextEdit.getText().toString().replace("-", "");
-                isbn = isbn.replace("[","");
-                isbn = isbn.replace("]","");
-                isbn = isbn.replace(";",", ");
+
 
                 if(isbn.length() < 10) {
                     Toast.makeText(AddMemoActivity.this, "ISBN의 길이가 너무 짧습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(isbn.length() > 13) {
+                if(isbn.length() > 20) {
                     Toast.makeText(AddMemoActivity.this, "ISBN의 길이가 너무 깁니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=&result_style=json&page_no=1&page_size=10&isbn="+isbn);
+                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=5e5a4c575334ac512cc7907e5020563e&result_style=json&page_no=1&page_size=10&isbn="+isbn);
 
                 //api를 읽음
                 new mThread().start();
@@ -163,10 +163,15 @@ public class AddMemoActivity extends AppCompatActivity {
                 }
 
                 DatabaseHelper appDB = new DatabaseHelper(AddMemoActivity.this);
+                String author = inputAuthorTextEdit.getText().toString();
+
+                author = author.replace("[","");
+                author = author.replace("]","");
+                author = author.replace(";",", ");
                 appDB.insert(new Memo(
                         inputIsbnTextEdit.getText().toString(),
                         inputTitleTextEdit.getText().toString(),
-                        inputAuthorTextEdit.getText().toString()
+                        author
                 ));
 
                 setResult(ADDED);
@@ -179,6 +184,7 @@ public class AddMemoActivity extends AppCompatActivity {
         returnMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(MainActivity.DO_NOT_ACTION);
                 finish();
             }
         });

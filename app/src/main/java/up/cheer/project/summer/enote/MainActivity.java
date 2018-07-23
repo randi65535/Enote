@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,9 +24,9 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
-    Button addMemoBtn, manageMemoBtn;
+    Button addMemoBtn;
     ListView memoListView;
     ListviewAdapter adapter;
 
@@ -33,11 +34,9 @@ public class MainActivity extends AppCompatActivity {
     LinkedList<Memo> list = new LinkedList<>();
 
     //이 값이 중복되면 안된다.
-    public static final int DO_NOT_ANYTHING             =   100;
-    public static final int ADDED                       =   201;
+    public static final int DO_NOT_ACTION               =   100;
     public static final int REQUEST_ADD_ACTIVITY        =   1001;
     public static final int REQUEST_MANAGE_ACTIVITY     =   1002;
-    public static final int REQUEST_IF_LIST_CHANGED     =   1003;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         addMemoBtn = findViewById(R.id.AddMemoBtn);
-        manageMemoBtn = findViewById(R.id.ManageMemoBtn);
         memoListView = findViewById(R.id.MemoListView);
 
 
@@ -68,14 +66,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        manageMemoBtn.setOnClickListener(new View.OnClickListener() {
+
+        memoListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+
                 Intent intent = new Intent(MainActivity.this, ManageMemoActivity.class);
-                startActivity(intent);
+
+                Memo memo = adapter.getItem(position);
+                intent.putExtra("position", position);
+                intent.putExtra("isbn", memo.getmIsbn());
+                intent.putExtra("title", memo.getmTitle());
+                intent.putExtra("author", memo.getmAuthor());
+                intent.putExtra("content", memo.getmContent());
+                startActivityForResult(intent, REQUEST_MANAGE_ACTIVITY);
             }
         });
-
 
     }
 
@@ -83,12 +89,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode)
+        switch (resultCode)
         {
-            case REQUEST_ADD_ACTIVITY :
-
-                //추가하지 않았다는 소리.
-                if(resultCode != ADDED) return;
+            case AddMemoActivity.ADDED : case ManageMemoActivity.DELETED :
 
                 //DB값이 변경되지 않았다는 소리
                 if (adapter.getCount() == appDB.getColumnCount()){
@@ -101,21 +104,18 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
 
+            case ManageMemoActivity.UPDATED :
+
+                    list.get(data.getIntExtra("position", -1)).setmContent(data.getStringExtra("content"));
+
+                break;
+
             default:
 
                 break;
 
-
         }
 
-
-//        Toast.makeText(this, "Hello world1", Toast.LENGTH_SHORT);
-//        if(requestCode != RESULT_OK) {
-//            return;
-//        }
-//
-//        Toast.makeText(this, "Hello world2", Toast.LENGTH_SHORT);
-//
-
     }
+
 }
