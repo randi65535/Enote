@@ -66,12 +66,15 @@
 
     </TableLayout>
 
-    <ListView
+
+
+    <ImageView
+        android:id="@+id/SchoolPromotion"
         android:layout_width="match_parent"
         android:layout_height="196dp"
-        android:background="#cccccc"
-        android:scrollbars="vertical"
         />
+
+
 
     <TableLayout
         android:layout_width="match_parent"

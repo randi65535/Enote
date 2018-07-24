@@ -17,11 +17,6 @@ public class ListviewAdapter extends BaseAdapter {
         this.list = list;
     }
 
-    public boolean isChanged(LinkedList<Memo> preList, LinkedList<Memo> afterList) {
-        return preList.size() != afterList.size();
-    }
-
-
     public ListviewAdapter(Context context) {
         this.context = context;
     }

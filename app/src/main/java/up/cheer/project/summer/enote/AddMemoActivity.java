@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,14 +27,12 @@ public class AddMemoActivity extends AppCompatActivity {
 
     Button insertMemoBtn, returnMenuBtn, searchIsbnBtn;
     EditText inputIsbnTextEdit, inputAuthorTextEdit, inputTitleTextEdit;
-    TextView isbnTextView;
+    ImageView schoolPromotion;
 
     public static final int ADDED                       =   201;
 
     Handler mHandler = new Handler();
     StringBuffer urlStrBuffer = new StringBuffer();
-
-
 
     class mThread extends Thread{
 
@@ -63,15 +62,12 @@ public class AddMemoActivity extends AppCompatActivity {
         }
 
         public void readStream(InputStream in){
-            final String data = readData(in);
+            final String data = readBookData(in);
             try {
-
-
                 JSONObject jsonObject =  new JSONObject(data);
                 JSONArray jArr = jsonObject.getJSONArray("docs");
                 //어짜피 ISBN은 고유값이라 1개 밖에 나오지 않는다.
                 jsonObject = jArr.getJSONObject(0);
-
 
                 author = jsonObject.getString("AUTHOR");
                 title = jsonObject.getString("TITLE");
@@ -89,7 +85,7 @@ public class AddMemoActivity extends AppCompatActivity {
             });
         }
 
-        public String readData(InputStream is){
+        public String readBookData(InputStream is){
             String data = "";
             Scanner s = new Scanner(is);
             while(s.hasNext()) data += s.nextLine() + "\n";
@@ -113,8 +109,8 @@ public class AddMemoActivity extends AppCompatActivity {
         inputTitleTextEdit = findViewById(R.id.InputTitleTextEdit);
         inputAuthorTextEdit = findViewById(R.id.InputAuthorTextEdit);
 
-        isbnTextView = findViewById(R.id.IsbnTextView);
-
+        schoolPromotion = findViewById(R.id.SchoolPromotion);
+        schoolPromotion.setImageResource(R.drawable.tmp);
 
         searchIsbnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +132,8 @@ public class AddMemoActivity extends AppCompatActivity {
                     Toast.makeText(AddMemoActivity.this, "ISBN의 길이가 너무 깁니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?cert_key=&result_style=json&page_no=1&page_size=10&isbn="+isbn);
+                urlStrBuffer.append("http://seoji.nl.go.kr/landingPage/SearchApi.do?" +
+                        "cert_key=&result_style=json&page_no=1&page_size=10&isbn="+isbn);
 
                 //api를 읽음
                 new mThread().start();
@@ -179,7 +176,6 @@ public class AddMemoActivity extends AppCompatActivity {
 
             }
         });
-
 
         returnMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
